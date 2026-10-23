@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, user-scalable=yes">
-<title>羊圈圈 · 辞典 — 公考成语实词 · 逻辑填空真题库</title>
+<title>词山 · 辞典 — 公考成语实词 · 逻辑填空真题库</title>
 <style>
 /* ==========================================================================
-   羊圈圈 · 辞典 — 全设备自适应与跨浏览器兼容样式表
+   词山 · 辞典 — 全设备自适应与跨浏览器兼容样式表
    支持桌面超宽屏、笔记本、平板、折叠屏、全尺寸手机、微信/QQ内置浏览器及分屏多任务
    ========================================================================== */
 
@@ -1557,6 +1557,91 @@ main {
 .revitem .t { flex: 1 1 0; min-width: 0; line-height: 1.6; word-break: break-word; }
 .revitem .t .ans { color: var(--ok); font-weight: 700; }
 
+/* ===== 结算页 & 错题回顾 ===== */
+.resnote {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--ink-soft);
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-left: 4px solid var(--bad);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  padding: 12px 16px;
+  margin-bottom: 4px;
+}
+.resnote.allok { border-left-color: var(--ok); }
+.resnote b { color: var(--ink); }
+.pill.rev { border-color: var(--bad); color: var(--bad); font-weight: 600; }
+.pill.rev b { color: var(--bad); }
+.pill.st-ok { border-color: var(--ok); color: var(--ok); font-weight: 600; }
+.pill.st-ok b { color: var(--ok); }
+.pill.st-skip { color: var(--ink-faint); font-weight: 600; }
+.revlegend {
+  display: flex;
+  gap: 6px 14px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.revlegend .li { display: inline-flex; align-items: center; gap: 5px; }
+.revlegend .li b { color: var(--ink); font-weight: 600; }
+.dot.skip { background: var(--ink-faint); }
+.revchips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  max-height: 118px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 2px;
+  scrollbar-width: thin;
+}
+.revchip {
+  min-width: 34px;
+  min-height: 32px;
+  padding: 4px 8px;
+  border: 1px solid var(--card-line);
+  background: var(--card);
+  color: var(--ink-soft);
+  border-radius: var(--radius-full);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: 0.15s ease;
+  user-select: none;
+  box-shadow: var(--shadow-xs);
+}
+@media(hover: hover) and (pointer: fine) {
+  .revchip:hover { box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+}
+.revchip.st-ok {
+  color: var(--ok);
+  border-color: var(--ok);
+  background: linear-gradient(0deg, rgba(63, 125, 78, 0.12), rgba(63, 125, 78, 0.12)), var(--card);
+}
+.revchip.st-wrong {
+  color: var(--bad);
+  border-color: var(--bad);
+  background: linear-gradient(0deg, rgba(170, 51, 51, 0.10), rgba(170, 51, 51, 0.10)), var(--card);
+}
+.revchip.st-skip {
+  color: var(--ink-faint);
+  border-style: dashed;
+}
+.revchip.on { color: #fbf6e9; font-weight: 700; }
+.revchip.st-ok.on { background: var(--ok); border-color: var(--ok); }
+.revchip.st-wrong.on { background: var(--bad); border-color: var(--bad); }
+.revchip.st-skip.on { background: var(--ink-faint); border-color: var(--ink-faint); border-style: solid; }
+.qexpl .ansline.skip {
+  background: var(--paper-2);
+  border: 1px solid var(--card-line);
+}
+.qexpl .ansline.skip .vmark { color: var(--ink-faint); }
+
 /* ===== 首页 (Home) ===== */
 .home {
   width: 100%;
@@ -2356,9 +2441,9 @@ html[data-theme="dark"] .qreal-tag.off { color: #17130d; }
   <header class="masthead">
     <div class="masthead-inner">
       <div class="brand" data-go="home">
-        <div class="seal">羊</div>
+        <div class="seal">词</div>
         <div>
-          <h1>羊圈圈 · 辞典</h1>
+          <h1>词山 · 辞典</h1>
           <div class="sub">公考成语实词 · <b id="brandCnt">993</b> 词 · 真题库 <b id="brandQ">2161</b> 题</div>
         </div>
       </div>
@@ -2475,7 +2560,7 @@ const GROUPS = []; // 组列表（去重，按出现顺序）
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const LS_KEY = 'yangquanquan_dict_v2';
+const LS_KEY = 'yangquanquan_dict_v2';   /* 存档键名沿用旧名（羊圈圈），保证老用户学习记录不丢失，勿改 */
 const NUM_CN = ['〇','一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十','卅一','卅二','卅三','卅四','卅五','卅六','卅七','卅八','卅九','四十','四一','四二','四三','四四','四五','四六','四七','四八','四九','五十','五一','五二','五三','五四','五五','五六','五七','五八','五九','六十','六一','六二','六三','六四','六五','六六','六七'];
 
 function defaultState(){
@@ -2786,13 +2871,16 @@ function meaningOpts(d){
 const NEEDFILL = /(依次|)?填入[\s\S]{0,24}(最恰当|最贴切|最正确|最合适)的一项(词语)?(是)?[：:]?\s*$/;
 function renderQuiz(){
   if(!Q){ quizSetup(); return; }
+  if(Q.phase === 'result'){ renderQuizResult(); return; }
+  const reviewing = Q.phase === 'review';
   const item = Q.items[Q.i];
   const total = Q.items.length;
-  const pct = Math.round(Q.i / total * 100);
+  const pct = reviewing ? Math.round((Q.i + 1) / total * 100)
+                        : Math.round(Q.i / total * 100);
   const grading = S.quiz.grading;
   const oi = Q.picked[Q.i];
   const done = oi != null;
-  const reveal = grading === 'instant' && done;   // 即时判题：答完即揭开
+  const reveal = reviewing || (grading === 'instant' && done);   // 即时判题答完即揭开；逐题回顾始终揭开
   const ans = ansOf(item);
   const isLast = Q.i >= total - 1;
   let body = '';
@@ -2809,42 +2897,81 @@ function renderQuiz(){
     body = `
       <div class="qstem"><span style="color:var(--ink-faint);font-size:13px">【选词填空】选出填入横线处最恰当的词语</span><br>
         ${blankSent(item.sent, item.d.w)}
-        <div class="qfill">出自真题例句${grading==='instant'?' · 点选答案即时判题':' · 答案交卷后揭晓'}</div></div>
+        <div class="qfill">出自真题例句${reviewing?' · 逐题回顾':grading==='instant'?' · 点选答案即时判题':' · 答案交卷后揭晓'}</div></div>
       <div class="opts">${opts.map((w,x)=>optHTML('ABCD'[x], [w], x, reveal, ans, oi)).join('')}</div>
       ${reveal?explHTML(item):''}`;
   } else {
     const opts = item.opts || (item.opts = meaningOpts(item.d));
     body = `
       <div class="qstem"><span style="color:var(--ink-faint);font-size:13px">【词义选择】「<b style="font-size:18px;color:var(--accent)">${esc(item.d.w)}</b>」最准确的释义是？</span>
-        <div class="qfill">${grading==='instant'?'点选答案即时判题':'答案交卷后揭晓'}</div></div>
+        <div class="qfill">${reviewing?'逐题回顾':grading==='instant'?'点选答案即时判题':'答案交卷后揭晓'}</div></div>
       <div class="opts">${opts.map((t,x)=>optHTML('ABCD'[x], [t], x, reveal, ans, oi)).join('')}</div>
       ${reveal?explHTML(item):''}`;
   }
-  let buttons;
-  if(grading === 'instant'){
+  const ACCENT = 'style="background:var(--accent);color:#fbf6e9;border-color:var(--accent)"';
+  let buttons, headHtml, metaHtml, chipsHtml = '';
+  if(reviewing){
+    const r = Q.result || {};
+    const stOf = k => Q.picked[k] == null ? 'skip' : (Q.picked[k] === ansOf(Q.items[k]) ? 'ok' : 'wrong');
+    const mySt = stOf(Q.i);
+    buttons = `<button class="abtn" id="revPrev" ${Q.i===0?'disabled':''}>← 上一题</button>`
+      + (isLast ? '' : `<button class="abtn" id="revNext" ${ACCENT}>下一题 →</button>`)
+      + `<button class="abtn" data-revback ${isLast?ACCENT:''}>返回成绩</button>`;
+    headHtml = `
+      <button class="back-btn" data-revback>← 返回成绩</button>
+      <h2>逐题回顾</h2>
+      <span class="hint">第 ${Q.i+1} / ${total} 题 · ${quizSubtitle(item)}</span>
+      <div class="right"><span class="qcount">${Q.result?`本组答对 ${r.ok}/${r.answered}`:''}</span></div>`;
+    metaHtml = `<span class="pill">逐题回顾</span>`
+      + (mySt==='ok' ? `<span class="pill st-ok">答对了</span>` : mySt==='wrong' ? `<span class="pill rev">答错了</span>` : `<span class="pill st-skip">未作答</span>`)
+      + `<span class="pill">你选 <b>${done?'ABCD'[oi]:'—'}</b> · 正确 <b>${'ABCD'[ans]}</b></span>`;
+    if(total > 1){
+      const stName = {ok:'答对', wrong:'答错', skip:'未作答'};
+      chipsHtml = `<div class="revlegend"><span class="li">题号</span>`
+        + `<span class="li"><span class="dot ok"></span>答对 <b>${r.ok||0}</b></span>`
+        + `<span class="li"><span class="dot bad"></span>答错 <b>${r.wrong||0}</b></span>`
+        + (r.miss?`<span class="li"><span class="dot skip"></span>未作答 <b>${r.miss}</b></span>`:'')
+        + `<span class="li">点题号可跳转</span></div>`
+        + `<div class="revchips">${Q.items.map((_, k)=>`<button class="revchip st-${stOf(k)} ${k===Q.i?'on':''}" data-revgo="${k}" title="第 ${k+1} 题 · ${stName[stOf(k)]}">${k+1}</button>`).join('')}</div>`;
+    }
+  } else if(grading === 'instant'){
     buttons = done
       ? (isLast
-          ? `<button class="abtn" id="nextQ" style="background:var(--accent);color:#fbf6e9;border-color:var(--accent)">查看成绩 →</button><button class="abtn" id="quitQ">提前交卷</button>`
-          : `<button class="abtn" id="nextQ" style="background:var(--accent);color:#fbf6e9;border-color:var(--accent)">下一题 →</button><button class="abtn" id="quitQ">提前交卷</button>`)
+          ? `<button class="abtn" id="nextQ" ${ACCENT}>查看成绩 →</button><button class="abtn" id="quitQ">提前交卷</button>`
+          : `<button class="abtn" id="nextQ" ${ACCENT}>下一题 →</button><button class="abtn" id="quitQ">提前交卷</button>`)
       : `<span style="font-size:12px;color:var(--ink-faint);letter-spacing:.06em">点选答案，即时判题</span>`;
-  } else {
-    buttons = (!isLast ? `<button class="abtn" id="nextQ">${done?'下一题 →':'跳过 →'}</button>` : '')
-      + `<button class="abtn" id="submitQ" style="background:var(--accent);color:#fbf6e9;border-color:var(--accent)">${isLast?'交卷看成绩 ●':'交卷 ●'}</button>`;
-  }
-  $('#main').innerHTML = `
-    <div class="sec-head">
+    headHtml = `
       <button class="back-btn" data-back>← 首页</button>
       <h2>${quizTitle()}</h2>
       <span class="hint">第 ${Q.i+1} / ${total} 题 · ${quizSubtitle(item)}</span>
-      <div class="right"><span class="qcount">已答 ${Q.picked.filter(p=>p!=null).length}${grading==='final'?' / 交卷后判分':''}</span></div>
+      <div class="right"><span class="qcount">已答 ${Q.picked.filter(p=>p!=null).length}</span></div>`;
+    metaHtml = `<span class="pill">${quizTitle()}</span><span class="pill">即时判题</span>`;
+  } else {
+    buttons = (!isLast ? `<button class="abtn" id="nextQ">${done?'下一题 →':'跳过 →'}</button>` : '')
+      + `<button class="abtn" id="submitQ" ${ACCENT}>${isLast?'交卷看成绩 ●':'交卷 ●'}</button>`;
+    headHtml = `
+      <button class="back-btn" data-back>← 首页</button>
+      <h2>${quizTitle()}</h2>
+      <span class="hint">第 ${Q.i+1} / ${total} 题 · ${quizSubtitle(item)}</span>
+      <div class="right"><span class="qcount">已答 ${Q.picked.filter(p=>p!=null).length} / 交卷后判分</span></div>`;
+    metaHtml = `<span class="pill">${quizTitle()}</span><span class="pill">交卷判题 · 可改选</span>`;
+  }
+  $('#main').innerHTML = `
+    <div class="sec-head">${headHtml}
     </div>
     <div class="quizwrap">
       <div class="qprog"><i style="width:${pct}%"></i></div>
-      <div class="qmeta"><span class="pill">${quizTitle()}</span>${grading==='instant'?'<span class="pill">即时判题</span>':'<span class="pill">交卷判题 · 可改选</span>'}</div>
+      <div class="qmeta">${metaHtml}</div>
+      ${chipsHtml}
       ${body}
       <div class="actions" id="quizActs">${buttons}</div>
     </div>`;
-  if(reveal){ const ex = $('#main .qexpl'); if(ex && ex.scrollIntoView) ex.scrollIntoView({block:'nearest'}); }
+  if(reviewing){
+    window.scrollTo(0, 0);
+    const on = $('#main .revchip.on');
+    if(on && on.scrollIntoView) on.scrollIntoView({block:'nearest'});   // 题多时把当前题号滚入题号区可见范围
+  }
+  else if(reveal){ const ex = $('#main .qexpl'); if(ex && ex.scrollIntoView) ex.scrollIntoView({block:'nearest'}); }
 }
 function quizTitle(){
   const k = S.quiz.kind;
@@ -2871,18 +2998,18 @@ function optHTML(lt, toks, oi, reveal, ans, picked){
 }
 function ansOf(it){ return it.kind==='real' ? it.q.ans : it.ans; }
 function explHTML(item){
-  const grading = S.quiz.grading;
-  const picked = Q.picked[Q.i];
+  const picked = Q ? Q.picked[Q.i] : null;
   let h = '';
   if(item.kind === 'real'){
     const q = item.q;
     const ansIdx = q.ans;
-    const mine = picked === ansIdx;
-    const mineTxt = picksToString(q.o[picked]);
+    const skipped = picked == null;
+    const mine = !skipped && picked === ansIdx;
+    const mineTxt = skipped ? '' : picksToString(q.o[picked]);
     const ansTxt = picksToString(q.o[ansIdx]);
     h = `<div class="qexpl">
-      <div class="ansline ${mine?'ok':'wr'}"><span class="vmark">${mine?'✓':'✗'}</span>${mine?'答对了':'答错了'}　正确答案：<b>${'ABCD'[ansIdx]}．${esc(ansTxt)}</b></div>
-      ${!mine && picked!=null?`<div class="youpick">你选了：${'ABCD'[picked]}．${esc(mineTxt)}</div>`:''}
+      <div class="ansline ${skipped?'skip':mine?'ok':'wr'}"><span class="vmark">${skipped?'—':mine?'✓':'✗'}</span>${skipped?'未作答':mine?'答对了':'答错了'}　正确答案：<b>${'ABCD'[ansIdx]}．${esc(ansTxt)}</b></div>
+      ${!mine && !skipped?`<div class="youpick">你选了：${'ABCD'[picked]}．${esc(mineTxt)}</div>`:''}
       ${realExplHTML(q)}
       <div class="qexpl-opts-list">
         ${q.o.map((toks,oi)=>{
@@ -2920,14 +3047,15 @@ function explHTML(item){
   }
   const d = item.d;
   const ansIdx = item.ans;
-  const right = picked != null && picked === ansIdx;
-  const optLabel = picked != null ? 'ABCD'[picked] : '—';
+  const skipped = picked == null;
+  const right = !skipped && picked === ansIdx;
+  const optLabel = skipped ? '—' : 'ABCD'[picked];
   const ansLabel = 'ABCD'[ansIdx];
   const ansTxt = item.kind === 'blank' ? esc(d.w) : esc(item.opts[ansIdx]);
-  const myTxt = picked != null ? (item.kind === 'blank' ? item.opts[picked] : item.opts[picked]) : null;
+  const myTxt = skipped ? null : item.opts[picked];
   h = `<div class="qexpl">
-    <div class="ansline ${right?'ok':'wr'}"><span class="vmark">${right?'✓':'✗'}</span>${right?'答对了':'答错了'}　正确答案：<b>${ansLabel}．${ansTxt}</b></div>
-    ${!right && picked!=null?`<div class="youpick">你选了：${optLabel}．${esc(myTxt)}</div>`:''}`;
+    <div class="ansline ${skipped?'skip':right?'ok':'wr'}"><span class="vmark">${skipped?'—':right?'✓':'✗'}</span>${skipped?'未作答':right?'答对了':'答错了'}　正确答案：<b>${ansLabel}．${ansTxt}</b></div>
+    ${!right && !skipped?`<div class="youpick">你选了：${optLabel}．${esc(myTxt)}</div>`:''}`;
   // 你选的 vs 正确答案 对比（选错时）
   if(!right && picked != null && item.kind==='blank'){
     const pickedWord = item.opts[picked];
@@ -3027,6 +3155,7 @@ function quizSetup(){
         按年份与成语/实词筛选；每题附<b>真题官方解析</b>与全部选项词义，点词可跳词卡；答错自动进「错题本」，答对自动移出。
         选词填空 / 词义选择：由 ${DATA.length} 词词库实时生成，无限练习。每日一练按日期固定抽 20 题。
         判题：<b>即时判题</b>选完立刻看解析；<b>交卷判题</b>可反复改选，交卷统一判分（未答的题不计入正确率）。
+        交卷后在成绩页点「<b>逐题回顾</b>」，可回到作答界面看全部题目（题号绿=对、红=错、灰=未答，点题号跳转，←/→ 翻题，Esc 返回成绩）。
         快捷键：<kbd>A</kbd><kbd>B</kbd><kbd>C</kbd><kbd>D</kbd> 选答案，<kbd>Enter</kbd> 下一题，<kbd>Esc</kbd> 退出。
       </div>
     </div>`;
@@ -3052,12 +3181,13 @@ function startQuiz(onlyWrong){
     if(it.kind === 'blank'){ it.opts = blankOpts(it.d); it.ans = it.opts.indexOf(it.d.w); }
     if(it.kind === 'meaning'){ it.opts = meaningOpts(it.d); it.ans = it.opts.indexOf(it.d.core); }
   });
-  Q = { kind: cfg.kind, items, i: 0, picked: items.map(()=>null), start: Date.now() };
+  Q = { kind: cfg.kind, items, i: 0, picked: items.map(()=>null), start: Date.now(),
+        phase: 'answering', settled: false, result: null };
   renderQuiz();
 }
 function keyOf(it){ return it.kind==='real' ? qkey(it.q) : (it.kind+':'+it.d.w); }
 function submitAnswer(oi){
-  if(!Q) return;
+  if(!Q || Q.phase !== 'answering') return;   // 回顾/成绩阶段选项只读
   const item = Q.items[Q.i];
   if(S.quiz.grading === 'instant' && Q.picked[Q.i] != null) return;
   Q.picked[Q.i] = oi;
@@ -3072,64 +3202,94 @@ function submitAnswer(oi){
   save();
   renderQuiz();
 }
+/* 交卷结算：只结算一次，结果存入 Q.result —— 从错题回顾返回成绩页时不会重复计数 */
 function quizResult(){
   if(!Q) return;
-  const items = Q.items;
-  const answers = Q.picked;
-  const total = items.length;
-  let answered = 0, okN = 0;
-  const wrongNow = [];
-  items.forEach((it, i) => {
-    const p = answers[i];
-    if(p == null) { wrongNow.push({it, i, p}); return; }
-    answered++;
-    const right = p === ansOf(it);
-    const k = keyOf(it);
-    if(right){ okN++; delete S.quizStat.wrongs[k]; }
-    else { S.quizStat.wrongs[k] = (S.quizStat.wrongs[k]||0) + 1; }
-  });
-  S.quizStat.done += answered;
-  S.quizStat.ok += okN;
-  const t = today();
-  const d = S.days[t] = S.days[t] || {cards:0, quiz:0, ok:0};
-  d.quiz += answered; d.ok += okN;
-  const secs = Math.round((Date.now()-Q.start)/1000);
-  const miss = total - answered;
-  const pct = answered ? Math.round(okN/answered*100) : 0;
-  S.lastQuiz = { kind: Q.kind, total, ok: okN, answered, secs, date: t };
-  save();
-  const list = items.map((it, i) => {
-    const p = answers[i];
-    const right = p != null && p === ansOf(it);
-    const label = it.kind==='real' ? `例题${it.q.no}（${esc(it.q.src)}）` : `「${esc(it.d.w)}」`;
-    const aIdx = ansOf(it);
-    const ansTxt = it.kind==='real' ? 'ABCD'[aIdx]+'．'+esc(it.q.o[aIdx].join('　')) : esc(it.d.w);
-    const mark = p == null ? `<span class="st" style="color:var(--ink-faint)">—</span>` : `<span class="st ${right?'r':'w'}">${right?'✓':'✗'}</span>`;
-    return `<div class="revitem"><span class="no">${i+1}</span>${mark}<span class="t"><b>${label}</b>${right?'':'　答案：<span class="ans">'+ansTxt+'</span>'}</span></div>`;
-  }).join('');
+  if(!Q.settled){
+    const items = Q.items;
+    const answers = Q.picked;
+    const total = items.length;
+    let answered = 0, okN = 0;
+    const reviewIdx = [];   // 待回顾：答错 + 未作答（存原题序号）
+    items.forEach((it, i) => {
+      const p = answers[i];
+      if(p == null){ reviewIdx.push(i); return; }
+      answered++;
+      if(p === ansOf(it)) okN++; else reviewIdx.push(i);
+    });
+    // 即时判题已在 submitAnswer 里逐题计入 quizStat/错题本，这里不再重复结算
+    if(S.quiz.grading !== 'instant'){
+      items.forEach((it, i) => {
+        const p = answers[i];
+        if(p == null) return;
+        const k = keyOf(it);
+        if(p === ansOf(it)) delete S.quizStat.wrongs[k];
+        else S.quizStat.wrongs[k] = (S.quizStat.wrongs[k]||0) + 1;
+      });
+      S.quizStat.done += answered;
+      S.quizStat.ok += okN;
+      const td = S.days[today()] = S.days[today()] || {cards:0, quiz:0, ok:0};
+      td.quiz += answered; td.ok += okN;
+    }
+    const secs = Math.round((Date.now()-Q.start)/1000);
+    const miss = total - answered;
+    const pct = answered ? Math.round(okN/answered*100) : 0;
+    S.lastQuiz = { kind: Q.kind, total, ok: okN, answered, secs, date: today() };
+    Q.result = { title: quizTitle(), total, answered, ok: okN, wrong: answered - okN, miss, pct, secs, reviewIdx };
+    Q.settled = true;
+    save();
+  }
+  Q.phase = 'result';
+  renderQuizResult();
+}
+/* 结算页（简化版）：只汇总成绩，不逐题罗列；点「逐题回顾」回到作答界面看全部题目（题号按对错着色） */
+function renderQuizResult(){
+  if(!Q || !Q.result){ quizSetup(); return; }
+  const r = Q.result;
+  const reviewN = r.reviewIdx.length;
+  const ACCENT = 'style="background:var(--accent);color:#fbf6e9;border-color:var(--accent)"';
+  const note = reviewN === 0
+    ? `<div class="resnote allok">✓ <b>全部答对</b>。点「<b>逐题回顾</b>」仍可回到作答界面，重温每道题的解析。</div>`
+    : `<div class="resnote">答错 <b>${r.wrong}</b> 题${r.miss?`、未作答 <b>${r.miss}</b> 题`:''}：点「<b>逐题回顾</b>」回到作答界面，全部题目都能逐题看作答与解析（题号绿=对、红=错、灰=未答，进入后先跳到第一道错题）。错题已自动收入错题本。</div>`;
   $('#main').innerHTML = `
     <div class="sec-head">
       <button class="back-btn" data-back>← 首页</button>
-      <h2>${quizTitle()} · 成绩</h2>
-      <span class="hint">${miss?miss+' 题未作答，未计入正确率':'全部作答'}</span>
+      <h2>${r.title} · 成绩</h2>
+      <span class="hint">${r.miss?r.miss+' 题未作答，未计入正确率':'全部作答'}</span>
     </div>
     <div class="quizwrap">
       <div class="resgrid">
-        <div class="statcard"><div class="n">${okN}<small>/${answered}</small></div><div class="l">答对 / 已答</div></div>
-        <div class="statcard"><div class="n">${pct}%</div><div class="l">正确率</div></div>
-        <div class="statcard"><div class="n">${Math.max(0,answered-okN)}</div><div class="l">答错（已入错题本）</div></div>
-        <div class="statcard"><div class="n">${miss}</div><div class="l">未作答</div></div>
-        <div class="statcard"><div class="n">${dur(secs)}</div><div class="l">用时</div></div>
+        <div class="statcard"><div class="n">${r.ok}<small>/${r.answered}</small></div><div class="l">答对 / 已答</div></div>
+        <div class="statcard"><div class="n">${r.pct}%</div><div class="l">正确率</div></div>
+        <div class="statcard"><div class="n">${r.wrong}</div><div class="l">答错（已入错题本）</div></div>
+        <div class="statcard"><div class="n">${r.miss}</div><div class="l">未作答</div></div>
+        <div class="statcard"><div class="n">${dur(r.secs)}</div><div class="l">用时</div></div>
       </div>
-      <div class="actions" style="margin-bottom:20px">
-        <button class="abtn" id="againQuiz" style="background:var(--accent);color:#fbf6e9;border-color:var(--accent)">再来一组</button>
+      ${note}
+      <div class="actions">
+        <button class="abtn" id="reviewWrong" ${reviewN?ACCENT:''}>逐题回顾${reviewN?`（${reviewN} 题待看）`:''} →</button>
+        <button class="abtn" id="againQuiz" ${reviewN?'':ACCENT}>再来一组</button>
         <button class="abtn" id="wrongQuiz">错题重做（${nWrong()}）</button>
         <button class="abtn" data-back>返回</button>
       </div>
-      <div style="font-size:13px;color:var(--ink-faint);letter-spacing:.06em;margin-bottom:8px">逐题回顾</div>
-      <div class="revlist">${list}</div>
     </div>`;
-  Q = null;
+}
+/* 逐题回顾：回到作答界面（选项只读、高亮你选/正确，下方展示解析），全部题目按原顺序翻看，进入先定位第一道错题 */
+function enterReview(){
+  if(!Q || !Q.result || !Q.items.length) return;
+  Q.phase = 'review';
+  Q.i = Q.result.reviewIdx.length ? Q.result.reviewIdx[0] : 0;
+  renderQuiz();
+}
+function reviewGo(idx){
+  if(!Q || Q.phase !== 'review') return;
+  Q.i = Math.max(0, Math.min(Q.items.length - 1, idx));
+  renderQuiz();
+}
+function exitReview(){
+  if(!Q) return;
+  Q.phase = 'result';
+  renderQuizResult();
 }
 /* 错题本 */
 function wrongListUI(){
@@ -3166,9 +3326,9 @@ const renderers = {
     $('#main').innerHTML = `
       <div class="home">
         <div class="home-hero">
-          <div class="hero-seal">羊</div>
-          <h2>羊圈圈 · 辞典</h2>
-          <p>${DATA.length} 词 · ${QUESTIONS.length} 道真题 · 高频成语实词</p>
+          <div class="hero-seal">词</div>
+          <h2>词山 · 辞典</h2>
+          <p>词山有路勤为径 · ${DATA.length} 词 · ${QUESTIONS.length} 道真题</p>
         </div>
         <div class="mode-grid">
           <button class="mode-card" data-go="quiz" data-kind="daily" data-auto="1">
@@ -3393,9 +3553,7 @@ const renderers = {
         <span style="font-size:12px;color:var(--ink-faint)">${k==='syn'&&view==='table'?'✓/★/⚑ 快速标记 · 点行看释义例句':(view==='card'?'空格：全部翻面':'点击行查看释义例句')}</span>
       </div>`;
   },
-  quiz(){ if(Q){ renderQuiz(); } else { quizSetup(); } },
-  quiz(){ if(Q){ renderQuiz(); } else { quizSetup(); } },
-  quiz(){ if(Q){ renderQuiz(); } else { quizSetup(); } },
+  quiz(){ if(!Q){ quizSetup(); } else if(Q.phase === 'result'){ renderQuizResult(); } else { renderQuiz(); } },
   wrong(){ $('#main').innerHTML = wrongListUI(); },
   mine(){
     const t = today();
@@ -3582,7 +3740,7 @@ $('#exportBtn').addEventListener('click', ()=>{
   const blob = new Blob([JSON.stringify(S,null,2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = '羊圈圈辞典-学习记录.json'; a.click();
+  a.download = '词山辞典-学习记录.json'; a.click();
 });
 /* 顶栏搜索 */
 $('#topSearch').addEventListener('keydown', e=>{
@@ -3644,6 +3802,7 @@ $('#main').addEventListener('click', e=>{
     if(go.dataset.go==='random'){ openRand(); return; }
     if(go.dataset.kind){
       S.quiz.kind = go.dataset.kind; save();
+      if(Q && Q.phase !== 'answering') Q = null;   // 上一组已结算：回刷题设置重新开局
       setMode('quiz');
       if(go.dataset.kind==='daily' && go.dataset.auto){ startQuiz(); }
       return;
@@ -3733,12 +3892,18 @@ $('#main').addEventListener('click', e=>{
   if(e.target.id==='wrongQuiz' || e.target.closest('#wrongQuiz')){ S.quiz.kind='real'; save(); startQuiz(true); }
   if(e.target.id==='againQuiz'){ startQuiz(); }
   if(e.target.id==='clearWrongs'){ showConfirm('确定清空错题本？此操作不可撤销。', ()=>{ S.quizStat.wrongs = {}; save(); renderers.wrong(); toast('错题本已清空'); }, {title:'清空错题本', okText:'清空', danger:true}); }
+  if(e.target.id==='reviewWrong' || e.target.closest('#reviewWrong')){ enterReview(); return; }
+  if(e.target.closest('[data-revback]')){ exitReview(); return; }
+  if(e.target.id==='revPrev' || e.target.closest('#revPrev')){ if(Q) reviewGo(Q.i - 1); return; }
+  if(e.target.id==='revNext' || e.target.closest('#revNext')){ if(Q) reviewGo(Q.i + 1); return; }
+  const revgo = e.target.closest('[data-revgo]');
+  if(revgo){ reviewGo(+revgo.dataset.revgo); return; }
   if(e.target.id==='nextQ' || e.target.closest('#nextQ')){
-    if(Q){ if(Q.i < Q.items.length-1){ Q.i++; renderQuiz(); } else { quizResult(); } }
+    if(Q && Q.phase==='answering'){ if(Q.i < Q.items.length-1){ Q.i++; renderQuiz(); } else { quizResult(); } }
     return;
   }
   if(e.target.id==='submitQ' || e.target.closest('#submitQ')){
-    if(Q){
+    if(Q && Q.phase==='answering'){
       const miss = Q.items.length - Q.picked.filter(p=>p!=null).length;
       if(miss > 0){
         showConfirm('还有 <b>'+miss+'</b> 题未作答，确定交卷？<br>未答的题不计入正确率。', ()=>quizResult(), {title:'交卷确认', okText:'确定交卷'});
@@ -3749,7 +3914,8 @@ $('#main').addEventListener('click', e=>{
     return;
   }
   if(e.target.id==='quitQ' || e.target.closest('#quitQ')){
-    if(Q && Q.picked.filter(p=>p!=null).length < Q.items.length){
+    if(!Q || Q.phase!=='answering') return;
+    if(Q.picked.filter(p=>p!=null).length < Q.items.length){
       showConfirm('还没做完，确定提前交卷？<br>未答的题不计入正确率。', ()=>quizResult(), {title:'提前交卷', okText:'交卷'});
       return;
     }
@@ -3868,6 +4034,7 @@ document.addEventListener('keydown', e=>{
     if(over){ closeRand(); return; }
     if($('#wordOverlay').classList.contains('show')){ closeWordCard(); return; }
     if($('#confirmOverlay').classList.contains('show')){ closeConfirm(); return; }
+    if(Q && Q.phase==='review'){ exitReview(); return; }
     if(Q){ Q=null; renderers.quiz(); return; }
   }
   if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); focusSearch(); return; }
@@ -3878,7 +4045,13 @@ document.addEventListener('keydown', e=>{
     if(e.key.toLowerCase()==='s'){ if(randId!=null) toggle('starred',randId); return; }
     return;
   }
-  if(Q && S.mode==='quiz'){
+  if(Q && S.mode==='quiz' && Q.phase==='review'){
+    if(e.key==='ArrowLeft'){ e.preventDefault(); reviewGo(Q.i - 1); return; }
+    if(e.key==='ArrowRight'){ e.preventDefault(); reviewGo(Q.i + 1); return; }
+    if(e.key==='Enter'){ e.preventDefault(); if(Q.i < Q.items.length - 1) reviewGo(Q.i + 1); else exitReview(); return; }
+    return;
+  }
+  if(Q && S.mode==='quiz' && Q.phase==='answering'){
     const k = e.key.toLowerCase();
     if(['a','b','c','d'].includes(k)){
       const oi = k.charCodeAt(0)-97;
@@ -3955,6 +4128,9 @@ document.addEventListener('touchend', e => {
     } else if (S.mode === 'card') {
       if (deltaX < 0) step(1);
       else step(-1);
+    } else if (S.mode === 'quiz' && Q && Q.phase === 'review') {
+      if (deltaX < 0) reviewGo(Q.i + 1);
+      else reviewGo(Q.i - 1);
     }
   }
 }, { passive: true });
