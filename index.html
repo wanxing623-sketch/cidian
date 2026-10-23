@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, user-scalable=yes">
-<title>羊圈圈 · 辞典 — 公考成语实词 · 逻辑填空真题库</title>
+<title>词山 · 辞典 — 公考成语实词 · 逻辑填空真题库</title>
 <style>
 /* ==========================================================================
-   羊圈圈 · 辞典 — 全设备自适应与跨浏览器兼容样式表
+   词山 · 辞典 — 全设备自适应与跨浏览器兼容样式表
    支持桌面超宽屏、笔记本、平板、折叠屏、全尺寸手机、微信/QQ内置浏览器及分屏多任务
    ========================================================================== */
 
@@ -2415,9 +2415,9 @@ html[data-theme="dark"] .qreal-tag.off { color: #17130d; }
   <header class="masthead">
     <div class="masthead-inner">
       <div class="brand" data-go="home">
-        <div class="seal">羊</div>
+        <div class="seal">词</div>
         <div>
-          <h1>羊圈圈 · 辞典</h1>
+          <h1>词山 · 辞典</h1>
           <div class="sub">公考成语实词 · <b id="brandCnt">993</b> 词 · 真题库 <b id="brandQ">2161</b> 题</div>
         </div>
       </div>
@@ -2534,7 +2534,7 @@ const GROUPS = []; // 组列表（去重，按出现顺序）
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const LS_KEY = 'yangquanquan_dict_v2';
+const LS_KEY = 'yangquanquan_dict_v2';   /* 存档键名沿用旧名（羊圈圈），保证老用户学习记录不丢失，勿改 */
 const NUM_CN = ['〇','一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十','卅一','卅二','卅三','卅四','卅五','卅六','卅七','卅八','卅九','四十','四一','四二','四三','四四','四五','四六','四七','四八','四九','五十','五一','五二','五三','五四','五五','五六','五七','五八','五九','六十','六一','六二','六三','六四','六五','六六','六七'];
 
 function defaultState(){
@@ -3293,9 +3293,9 @@ const renderers = {
     $('#main').innerHTML = `
       <div class="home">
         <div class="home-hero">
-          <div class="hero-seal">羊</div>
-          <h2>羊圈圈 · 辞典</h2>
-          <p>${DATA.length} 词 · ${QUESTIONS.length} 道真题 · 高频成语实词</p>
+          <div class="hero-seal">词</div>
+          <h2>词山 · 辞典</h2>
+          <p>词山有路勤为径 · ${DATA.length} 词 · ${QUESTIONS.length} 道真题</p>
         </div>
         <div class="mode-grid">
           <button class="mode-card" data-go="quiz" data-kind="daily" data-auto="1">
@@ -3707,7 +3707,7 @@ $('#exportBtn').addEventListener('click', ()=>{
   const blob = new Blob([JSON.stringify(S,null,2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = '羊圈圈辞典-学习记录.json'; a.click();
+  a.download = '词山辞典-学习记录.json'; a.click();
 });
 /* 顶栏搜索 */
 $('#topSearch').addEventListener('keydown', e=>{
